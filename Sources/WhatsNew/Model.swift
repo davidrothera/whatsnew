@@ -23,11 +23,44 @@ public struct WhatsNewItem: Identifiable, Codable {
 
     // MARK: - Computed properties
     public var color: Color {
-        return .blue
+        switch colorName {
+        case "black":
+            return .black
+        case "blue":
+            return .blue
+        case "brown":
+            return .brown
+        case "cyan":
+            return .cyan
+        case "gray":
+            return .gray
+        case "green":
+            return .green
+        case "indigo":
+            return .indigo
+        case "mint":
+            return .mint
+        case "orange":
+            return .orange
+        case "pink":
+            return .pink
+        case "purple":
+            return .purple
+        case "red":
+            return .red
+        case "teal":
+            return .teal
+        case "white":
+            return .white
+        case "yellow":
+            return .yellow
+        default:
+            return .blue
+        }
     }
 
     public var icon: Image {
-        Image(systemName: "clipboard")
+        Image(systemName: iconName)
     }
 
     // MARK: - Initializer

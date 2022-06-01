@@ -22,11 +22,15 @@ public class WhatsNew {
     }
 
     // MARK: - Public Initializers
-    public init(items: [WhatsNewItem]) {
+    public init(items: [WhatsNewItem], forceShow: Bool = false) {
         self.items = items
+
+        if forceShow {
+            resetSeenState()
+        }
     }
 
-    public init(fromPath path: String, withSourceType type: SourceType) throws {
+    public init(fromPath path: String, withSourceType type: SourceType, forceShow: Bool = false) throws {
         let url = URL(fileURLWithPath: path)
         let data = try Data(contentsOf: url)
 
@@ -39,6 +43,10 @@ public class WhatsNew {
             let decoder = PropertyListDecoder()
             let items = try decoder.decode([WhatsNewItem].self, from: data)
             self.items = items
+        }
+
+        if forceShow {
+            resetSeenState()
         }
     }
 
@@ -61,5 +69,9 @@ public class WhatsNew {
             return
         }
         UserDefaults.standard.set(currentVersion, forKey: DefaultsKeys.seenVersion.rawValue)
+    }
+
+    func resetSeenState() {
+        UserDefaults.standard.removeObject(forKey: DefaultsKeys.seenVersion.rawValue)
     }
 }
