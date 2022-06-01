@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  WhatNewSampleApp
+//  WhatsNewExample
 //
 //  Created by David Rothera on 01/06/2022.
 //
