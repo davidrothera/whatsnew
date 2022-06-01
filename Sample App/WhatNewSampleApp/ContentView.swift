@@ -12,9 +12,11 @@ struct ContentView: View {
     func foo() {
         let whatsNew = WhatsNew(items: [])
     }
+
     var body: some View {
         Text("Hello, world!")
             .padding()
+            .whatsNew(whatsNew: .init(items: []))
     }
 }
 
