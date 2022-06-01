@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-public struct WhatsNewItem: Identifiable, Codable {
+public struct WhatsNewItem: Identifiable, Codable, Hashable {
 
     public let id = UUID()
 

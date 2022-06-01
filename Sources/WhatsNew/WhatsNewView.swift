@@ -12,6 +12,8 @@ struct WhatsNewView: View {
 
     @Environment(\.dismiss) var dismiss
 
+    @State private var buttonOffset: CGFloat = 500
+
     var body: some View {
         VStack {
             Text("Whats New…")
@@ -20,8 +22,8 @@ struct WhatsNewView: View {
                 .padding()
 
             ScrollView {
-                ForEach(whatsNew.items) { item in
-                    WhatsNewItemView(item: item)
+                ForEach(Array(zip(whatsNew.items.indices, whatsNew.items)), id: \.1) { index, item in
+                    WhatsNewItemView(item: item, index: index)
                 }
             }
 
@@ -39,59 +41,13 @@ struct WhatsNewView: View {
             }
             .buttonStyle(.borderedProminent)
             .padding()
+            .animation(.spring().delay(0.5 + 0.4 * Double(whatsNew.items.count)), value: buttonOffset)
+            .offset(y: buttonOffset)
+            .onAppear {
+                buttonOffset = 0
+            }
         }
         .padding()
-    }
-}
-
-struct WhatsNewItemView: View {
-    var item: WhatsNewItem
-
-    var body: some View {
-        HStack {
-            item.icon
-                .resizable()
-                .scaledToFit()
-                .frame(width: 40, height: 40)
-                .foregroundColor(item.color)
-                .padding()
-            VStack(alignment: .leading, spacing: 8) {
-                Text(item.title)
-                    .foregroundColor(.primary)
-                    .font(.system(.headline, design: .rounded))
-                Text(item.body)
-                    .foregroundColor(.secondary)
-                    .font(.system(.subheadline, design: .rounded))
-            }
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-    }
-}
-
-struct WhatsNewViewModifier: ViewModifier {
-    let whatsNew: WhatsNew
-    @State private var shouldShow: Bool
-
-    init(whatsNew: WhatsNew) {
-        self.whatsNew = whatsNew
-        _shouldShow = .init(wrappedValue: whatsNew.shouldShow())
-    }
-
-    func body(content: Content) -> some View {
-        content
-            .sheet(isPresented: $shouldShow, onDismiss: didDismiss) {
-                WhatsNewView(whatsNew: whatsNew)
-            }
-    }
-
-    func didDismiss() {
-        whatsNew.markAsSeen()
-    }
-}
-
-public extension View {
-    func whatsNew(whatsNew: WhatsNew) -> some View {
-        modifier(WhatsNewViewModifier(whatsNew: whatsNew))
     }
 }
 
