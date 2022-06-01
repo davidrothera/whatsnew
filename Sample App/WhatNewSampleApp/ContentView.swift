@@ -1,6 +1,6 @@
 //
 //  ContentView.swift
-//  WhatsNewSampleApp
+//  WhatNewSampleApp
 //
 //  Created by David Rothera on 01/06/2022.
 //
@@ -10,11 +10,8 @@ import WhatsNew
 
 struct ContentView: View {
     func foo() {
-        var item = WhatsNewItem(title: "fooo", body: "bar", colorName: "hi", iconName: "")
-        item.title = "foo"
-        item.body = "hi"
+        let whatsNew = WhatsNew(items: [])
     }
-
     var body: some View {
         Text("Hello, world!")
             .padding()
