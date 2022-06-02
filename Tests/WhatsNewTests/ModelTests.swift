@@ -40,4 +40,14 @@ class ModelTests: XCTestCase {
         XCTAssertEqual("Bar", item.body)
         XCTAssertEqual("Baz", item.iconName)
     }
+
+    func testFilterItems() throws {
+        let items: [WhatsNewItem] = [
+            WhatsNewItem(title: "", body: "", colorName: "", iconName: ""),
+            WhatsNewItem(title: "", body: "", shownOnVersion: "123", colorName: "", iconName: ""),
+            WhatsNewItem(title: "", body: "", shownOnVersion: Bundle.main.releaseVersionNumber, colorName: "", iconName: ""),
+        ]
+        let filteredItems = WhatsNew.filterItems(items)
+        XCTAssertEqual(2, filteredItems.count)
+    }
 }

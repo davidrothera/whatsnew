@@ -23,7 +23,7 @@ public class WhatsNew {
 
     // MARK: - Public Initializers
     public init(items: [WhatsNewItem], forceShow: Bool = false) {
-        self.items = items
+        self.items = WhatsNew.filterItems(items)
 
         if forceShow {
             resetSeenState()
@@ -73,5 +73,11 @@ public class WhatsNew {
 
     func resetSeenState() {
         UserDefaults.standard.removeObject(forKey: DefaultsKeys.seenVersion.rawValue)
+    }
+
+    static func filterItems(_ items: [WhatsNewItem]) -> [WhatsNewItem] {
+        return items.filter { item in
+            item.shownOnVersion == nil || item.shownOnVersion == Bundle.main.releaseVersionNumber
+        }
     }
 }

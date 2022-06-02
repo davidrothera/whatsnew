@@ -13,12 +13,13 @@ public struct WhatsNewItem: Identifiable, Codable, Hashable {
 
     public var title: String
     public var body: String
+    public var shownOnVersion: String?
     public var colorName: String
     public var iconName: String
 
     // Be specific so that the `let id` doesn't complain
     enum CodingKeys: String, CodingKey {
-        case title, body, colorName, iconName
+        case title, body, shownOnVersion, colorName, iconName
     }
 
     // MARK: - Computed properties
@@ -64,9 +65,10 @@ public struct WhatsNewItem: Identifiable, Codable, Hashable {
     }
 
     // MARK: - Initializer
-    public init(title: String, body: String, colorName: String, iconName: String) {
+    public init(title: String, body: String, shownOnVersion: String? = nil, colorName: String, iconName: String) {
         self.title = title
         self.body = body
+        self.shownOnVersion = shownOnVersion
         self.colorName = colorName
         self.iconName = iconName
     }
