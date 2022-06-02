@@ -28,8 +28,24 @@ struct WhatsNewViewModifier: ViewModifier {
     }
 }
 
+struct WhatsNewViewModifierManual: ViewModifier {
+    let whatsNew: WhatsNew
+    @Binding var shouldShow: Bool
+
+    func body(content: Content) -> some View {
+        content
+            .sheet(isPresented: $shouldShow) {
+                WhatsNewView(whatsNew: whatsNew)
+            }
+    }
+}
+
 public extension View {
     func whatsNew(whatsNew: WhatsNew) -> some View {
         modifier(WhatsNewViewModifier(whatsNew: whatsNew))
+    }
+
+    func whatsNew(whatsNew: WhatsNew, shouldShow: Binding<Bool>) -> some View {
+        modifier(WhatsNewViewModifierManual(whatsNew: whatsNew, shouldShow: shouldShow))
     }
 }
