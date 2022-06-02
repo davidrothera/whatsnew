@@ -24,6 +24,7 @@ struct WhatsNewView: View {
             ScrollView {
                 ForEach(Array(zip(whatsNew.items.indices, whatsNew.items)), id: \.1) { index, item in
                     WhatsNewItemView(item: item, index: index)
+                        .padding(.bottom)
                 }
             }
 
