@@ -60,7 +60,7 @@ public class WhatsNew {
         else {
             return true
         }
-        return seenVersion != currentVersion
+        return (seenVersion != currentVersion) && !items.isEmpty
     }
 
     /// Mark the current app version as "seen" so that we don't show the popup in future
