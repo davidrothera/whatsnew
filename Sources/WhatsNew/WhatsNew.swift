@@ -55,12 +55,17 @@ public class WhatsNew {
     ///
     /// Based on whether the last recorded seen version matches the current version or not
     func shouldShow() -> Bool {
+        if items.isEmpty {
+            return false
+        }
+
         guard let seenVersion = UserDefaults.standard.string(forKey: DefaultsKeys.seenVersion.rawValue),
               let currentVersion = Bundle.main.releaseVersionNumber
         else {
             return true
         }
-        return (seenVersion != currentVersion) && !items.isEmpty
+
+        return seenVersion != currentVersion
     }
 
     /// Mark the current app version as "seen" so that we don't show the popup in future
