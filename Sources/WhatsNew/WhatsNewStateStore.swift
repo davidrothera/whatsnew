@@ -1,5 +1,5 @@
 //
-//  WhatsNewStore.swift
+//  WhatsNewStateStore.swift
 //  
 //
 //  Created by David Rothera on 24/07/2022.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-protocol WhatsNewStore {
+protocol WhatsNewStateStore {
     func hasBeenSeen(item: WhatsNewItem) -> Bool
 
     func markAsSeen(items: [WhatsNewItem])
 }
 
-class WhatsNewMemoryStore: WhatsNewStore {
+class WhatsNewMemoryStore: WhatsNewStateStore {
     func hasBeenSeen(item: WhatsNewItem) -> Bool {
         false
     }
@@ -23,7 +23,7 @@ class WhatsNewMemoryStore: WhatsNewStore {
     }
 }
 
-class WhatsNewUserDefaultsStore: WhatsNewStore {
+class WhatsNewUserDefaultsStore: WhatsNewStateStore {
     var defaultsKey: String
     var userDefaults: UserDefaults
 
