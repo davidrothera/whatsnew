@@ -17,7 +17,6 @@ public struct WhatsNewItem: Identifiable, Codable, Hashable {
 
     public var title: String
     public var body: String
-    public var shownOnVersion: String?
     public var colorName: String
     public var iconName: String
 
@@ -64,11 +63,10 @@ public struct WhatsNewItem: Identifiable, Codable, Hashable {
     }
 
     // MARK: - Initializer
-    public init(id: String, title: String, body: String, shownOnVersion: String? = nil, colorName: String, iconName: String) {
+    public init(id: String, title: String, body: String, colorName: String, iconName: String) {
         self.id = id
         self.title = title
         self.body = body
-        self.shownOnVersion = shownOnVersion
         self.colorName = colorName
         self.iconName = iconName
     }
