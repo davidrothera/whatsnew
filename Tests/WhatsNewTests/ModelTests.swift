@@ -43,9 +43,9 @@ class ModelTests: XCTestCase {
 
     func testFilterItems() throws {
         let items: [WhatsNewItem] = [
-            WhatsNewItem(title: "", body: "", colorName: "", iconName: ""),
-            WhatsNewItem(title: "", body: "", shownOnVersion: "123", colorName: "", iconName: ""),
-            WhatsNewItem(title: "", body: "", shownOnVersion: Bundle.main.releaseVersionNumber, colorName: "", iconName: ""),
+            WhatsNewItem(id: "1", title: "", body: "", colorName: "", iconName: ""),
+            WhatsNewItem(id: "2", title: "", body: "", shownOnVersion: "123", colorName: "", iconName: ""),
+            WhatsNewItem(id: "3", title: "", body: "", shownOnVersion: Bundle.main.releaseVersionNumber, colorName: "", iconName: ""),
         ]
         let filteredItems = WhatsNew.filterItems(items)
         XCTAssertEqual(2, filteredItems.count)

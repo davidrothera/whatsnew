@@ -11,7 +11,7 @@ import XCTest
 class InitTests: XCTestCase {
     func testInitWithItems() throws {
         let items: [WhatsNewItem] = [
-            .init(title: "A", body: "B", colorName: "C", iconName: "D"),
+            .init(id: "1", title: "A", body: "B", colorName: "C", iconName: "D"),
         ]
 
         let whatsNew = WhatsNew(items: items)

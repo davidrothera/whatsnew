@@ -41,6 +41,6 @@ struct WhatsNewItemView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewItemView(item: .init(title: "Example", body: "An example item", colorName: "mint", iconName: "circle.fill"), index: 0)
+        WhatsNewItemView(item: .init(id: "sample", title: "Example", body: "An example item", colorName: "mint", iconName: "circle.fill"), index: 0)
     }
 }

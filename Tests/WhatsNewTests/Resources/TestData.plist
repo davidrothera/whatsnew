@@ -3,6 +3,8 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>id</key>
+		<string>foo</string>
 		<key>title</key>
 		<string>Foo</string>
 		<key>body</key>
