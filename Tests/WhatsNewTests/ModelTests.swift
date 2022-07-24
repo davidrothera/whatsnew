@@ -42,12 +42,19 @@ class ModelTests: XCTestCase {
     }
 
     func testFilterItems() throws {
+        class TestStateStore: WhatsNewStateStore {
+            func hasBeenSeen(item: WhatsNewItem) -> Bool {
+                return item.id == "1"
+            }
+            func markAsSeen(items: [WhatsNewItem]) {}
+        }
+
         let items: [WhatsNewItem] = [
             WhatsNewItem(id: "1", title: "", body: "", colorName: "", iconName: ""),
-            WhatsNewItem(id: "2", title: "", body: "", shownOnVersion: "123", colorName: "", iconName: ""),
-            WhatsNewItem(id: "3", title: "", body: "", shownOnVersion: Bundle.main.releaseVersionNumber, colorName: "", iconName: ""),
+            WhatsNewItem(id: "2", title: "", body: "", colorName: "", iconName: ""),
+            WhatsNewItem(id: "3", title: "", body: "", colorName: "", iconName: ""),
         ]
-        let filteredItems = WhatsNew.filterItems(items)
-        XCTAssertEqual(2, filteredItems.count)
+        let whatsNew = WhatsNew(items: items, stateStore: TestStateStore())
+        XCTAssertEqual(2, whatsNew.items.count)
     }
 }
