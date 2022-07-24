@@ -43,13 +43,11 @@ public class WhatsNewUserDefaultsStore: WhatsNewStateStore {
     }
 
     public func markAsSeen(items: [WhatsNewItem]) {
-        guard
-            var currentIdentifiers = getIdentifiersFromStorage()
-        else { return }
+        var identifiers = getIdentifiersFromStorage() ?? []
 
-        items.forEach { currentIdentifiers.append($0.id) }
+        items.forEach { identifiers.append($0.id) }
 
-        guard let data = try? JSONEncoder().encode(currentIdentifiers) else {
+        guard let data = try? JSONEncoder().encode(identifiers) else {
             return
         }
         userDefaults.set(data, forKey: defaultsKey)

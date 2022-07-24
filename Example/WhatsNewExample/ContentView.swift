@@ -9,10 +9,6 @@ import SwiftUI
 import WhatsNew
 
 struct ContentView: View {
-    func foo() {
-        let whatsNew = WhatsNew(items: [], stateStore: WhatsNewMemoryStore())
-    }
-
     var body: some View {
         Text("Hello, world!")
             .padding()
@@ -21,7 +17,7 @@ struct ContentView: View {
                 .init(id: "second", title: "Test", body: "Something", colorName: "yellow", iconName: "trash.fill"),
                 .init(id: "third", title: "Test", body: "Something", shownOnVersion: "1.0", colorName: "mint", iconName: "tray.fill"),
                 .init(id: "fourth", title: "Test", body: "Something", shownOnVersion: "123", colorName: "indigo", iconName: "moon.fill"),
-            ], stateStore: WhatsNewMemoryStore()))
+            ], stateStore: WhatsNewUserDefaultsStore()))
     }
 }
 
