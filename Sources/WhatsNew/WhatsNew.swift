@@ -9,7 +9,8 @@ import Foundation
 
 public class WhatsNew {
     // MARK: - Variables
-    private(set) var items: [WhatsNewItem]
+    private(set) var items: [WhatsNewItem] = []
+    var stateStore: WhatsNewStateStore
 
     // MARK: - Enums
     public enum SourceType {
@@ -22,15 +23,12 @@ public class WhatsNew {
     }
 
     // MARK: - Public Initializers
-    public init(items: [WhatsNewItem], forceShow: Bool = false) {
-        self.items = WhatsNew.filterItems(items)
-
-        if forceShow {
-            resetSeenState()
-        }
+    public init(items: [WhatsNewItem], stateStore: WhatsNewStateStore) {
+        self.stateStore = stateStore
+        self.items = filterItems(items)
     }
 
-    public init(fromPath path: String, withSourceType type: SourceType, forceShow: Bool = false) throws {
+    public init(fromPath path: String, withSourceType type: SourceType, stateStore: WhatsNewStateStore) throws {
         let url = URL(fileURLWithPath: path)
         let data = try Data(contentsOf: url)
 
@@ -45,44 +43,24 @@ public class WhatsNew {
             self.items = items
         }
 
-        if forceShow {
-            resetSeenState()
-        }
+        self.stateStore = stateStore
     }
 
     // MARK: - Private methods
     /// Whether we should show the WhatsNew or not
-    ///
-    /// Based on whether the last recorded seen version matches the current version or not
     func shouldShow() -> Bool {
         if items.isEmpty {
             return false
         }
-
-        guard let seenVersion = UserDefaults.standard.string(forKey: DefaultsKeys.seenVersion.rawValue),
-              let currentVersion = Bundle.main.releaseVersionNumber
-        else {
-            return true
-        }
-
-        return seenVersion != currentVersion
+        return true
     }
 
-    /// Mark the current app version as "seen" so that we don't show the popup in future
+    /// Mark the current items as "seen" so that they are not shown on future launches
     func markAsSeen() {
-        guard let currentVersion = Bundle.main.releaseVersionNumber else {
-            return
-        }
-        UserDefaults.standard.set(currentVersion, forKey: DefaultsKeys.seenVersion.rawValue)
+        stateStore.markAsSeen(items: items)
     }
 
-    func resetSeenState() {
-        UserDefaults.standard.removeObject(forKey: DefaultsKeys.seenVersion.rawValue)
-    }
-
-    static func filterItems(_ items: [WhatsNewItem]) -> [WhatsNewItem] {
-        return items.filter { item in
-            item.shownOnVersion == nil || item.shownOnVersion == Bundle.main.releaseVersionNumber
-        }
+    func filterItems(_ items: [WhatsNewItem]) -> [WhatsNewItem] {
+        return items.filter { !stateStore.hasBeenSeen(item: $0) }
     }
 }

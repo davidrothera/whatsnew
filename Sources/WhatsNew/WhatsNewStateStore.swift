@@ -7,32 +7,34 @@
 
 import Foundation
 
-protocol WhatsNewStateStore {
+public protocol WhatsNewStateStore {
     func hasBeenSeen(item: WhatsNewItem) -> Bool
 
     func markAsSeen(items: [WhatsNewItem])
 }
 
-class WhatsNewMemoryStore: WhatsNewStateStore {
-    func hasBeenSeen(item: WhatsNewItem) -> Bool {
+public class WhatsNewMemoryStore: WhatsNewStateStore {
+    public func hasBeenSeen(item: WhatsNewItem) -> Bool {
         false
     }
 
-    func markAsSeen(items: [WhatsNewItem]) {
+    public func markAsSeen(items: [WhatsNewItem]) {
         return
     }
+
+    public init() {}
 }
 
-class WhatsNewUserDefaultsStore: WhatsNewStateStore {
+public class WhatsNewUserDefaultsStore: WhatsNewStateStore {
     var defaultsKey: String
     var userDefaults: UserDefaults
 
-    init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
+    public init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
     }
 
-    func hasBeenSeen(item: WhatsNewItem) -> Bool {
+    public func hasBeenSeen(item: WhatsNewItem) -> Bool {
         guard
             let identifiers = getIdentifiersFromStorage()
         else { return false }
@@ -40,7 +42,7 @@ class WhatsNewUserDefaultsStore: WhatsNewStateStore {
         return identifiers.contains(item.id)
     }
 
-    func markAsSeen(items: [WhatsNewItem]) {
+    public func markAsSeen(items: [WhatsNewItem]) {
         guard
             var currentIdentifiers = getIdentifiersFromStorage()
         else { return }
