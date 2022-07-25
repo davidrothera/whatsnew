@@ -36,28 +36,17 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
 
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
         guard
-            let identifiers = getIdentifiersFromStorage()
+            let data = userDefaults.data(forKey: defaultsKey),
+            let identifiers = try? JSONDecoder().decode([String].self, from: data)
         else { return false }
 
         return identifiers.contains(item.id)
     }
 
     public func markAsSeen(items: [WhatsNewItem]) {
-        var identifiers = getIdentifiersFromStorage() ?? []
-
-        items.forEach { identifiers.append($0.id) }
-
-        guard let data = try? JSONEncoder().encode(identifiers) else {
+        guard let data = try? JSONEncoder().encode(items) else {
             return
         }
         userDefaults.set(data, forKey: defaultsKey)
-    }
-
-    private func getIdentifiersFromStorage() -> [String]? {
-        guard
-            let data = userDefaults.data(forKey: defaultsKey),
-            let identifiers = try? JSONDecoder().decode([String].self, from: data)
-        else { return nil }
-        return identifiers
     }
 }
