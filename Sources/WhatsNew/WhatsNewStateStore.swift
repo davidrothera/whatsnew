@@ -13,7 +13,7 @@ public protocol WhatsNewStateStore {
     func markAsSeen(items: [WhatsNewItem])
 }
 
-public class WhatsNewMemoryStore: WhatsNewStateStore {
+public class WhatsNewMemoryStateStore: WhatsNewStateStore {
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
         false
     }
@@ -25,7 +25,7 @@ public class WhatsNewMemoryStore: WhatsNewStateStore {
     public init() {}
 }
 
-public class WhatsNewUserDefaultsStore: WhatsNewStateStore {
+public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     var defaultsKey: String
     var userDefaults: UserDefaults
 

@@ -54,6 +54,6 @@ struct WhatsNewView: View {
 
 struct WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewView(whatsNew: .init(items: [], stateStore: WhatsNewMemoryStore()))
+        WhatsNewView(whatsNew: .init(items: [], stateStore: WhatsNewMemoryStateStore()))
     }
 }

@@ -14,7 +14,7 @@ class InitTests: XCTestCase {
             .init(id: "1", title: "A", body: "B", colorName: "C", iconName: "D"),
         ]
 
-        let whatsNew = WhatsNew(items: items, stateStore: WhatsNewMemoryStore())
+        let whatsNew = WhatsNew(items: items, stateStore: WhatsNewMemoryStateStore())
         XCTAssertEqual(1, whatsNew.items.count)
     }
 
@@ -24,7 +24,7 @@ class InitTests: XCTestCase {
             return
         }
 
-        let whatsNew = try WhatsNew(fromPath: path, withSourceType: .json, stateStore: WhatsNewMemoryStore())
+        let whatsNew = try WhatsNew(fromPath: path, withSourceType: .json, stateStore: WhatsNewMemoryStateStore())
         XCTAssertEqual(1, whatsNew.items.count)
     }
 
@@ -34,7 +34,7 @@ class InitTests: XCTestCase {
             return
         }
 
-        let whatsNew = try WhatsNew(fromPath: path, withSourceType: .plist, stateStore: WhatsNewMemoryStore())
+        let whatsNew = try WhatsNew(fromPath: path, withSourceType: .plist, stateStore: WhatsNewMemoryStateStore())
         XCTAssertEqual(1, whatsNew.items.count)
     }
 }

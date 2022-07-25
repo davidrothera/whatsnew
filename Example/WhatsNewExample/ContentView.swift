@@ -17,7 +17,7 @@ struct ContentView: View {
                 .init(id: "second", title: "Test", body: "Something", colorName: "yellow", iconName: "trash.fill"),
                 .init(id: "third", title: "Test", body: "Something", colorName: "mint", iconName: "tray.fill"),
                 .init(id: "fourth", title: "Test", body: "Something", colorName: "indigo", iconName: "moon.fill"),
-            ], stateStore: WhatsNewMemoryStore()))
+            ], stateStore: WhatsNewMemoryStateStore()))
     }
 }
 
