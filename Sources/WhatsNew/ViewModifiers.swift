@@ -7,19 +7,23 @@
 
 import SwiftUI
 
-struct WhatsNewViewModifier: ViewModifier {
+struct WhatsNewViewModifier<LinkView>: ViewModifier where LinkView: View {
     let whatsNew: WhatsNew
     @State private var shouldShow: Bool
+    let linkView: LinkView
 
-    init(whatsNew: WhatsNew) {
+    init(whatsNew: WhatsNew, @ViewBuilder linkView: () -> LinkView) {
         self.whatsNew = whatsNew
         _shouldShow = .init(wrappedValue: whatsNew.shouldShow())
+        self.linkView = linkView()
     }
 
     func body(content: Content) -> some View {
         content
             .sheet(isPresented: $shouldShow, onDismiss: didDismiss) {
-                WhatsNewView(whatsNew: whatsNew)
+                WhatsNewView<LinkView>(whatsNew: whatsNew) {
+                    linkView
+                }
             }
     }
 
@@ -28,24 +32,33 @@ struct WhatsNewViewModifier: ViewModifier {
     }
 }
 
-struct WhatsNewViewModifierManual: ViewModifier {
+struct WhatsNewViewModifierManual<LinkView: View>: ViewModifier {
     let whatsNew: WhatsNew
     @Binding var shouldShow: Bool
+    let linkView: LinkView
+
+    init(whatsNew: WhatsNew, shouldShow: Binding<Bool>, @ViewBuilder linkView: () -> LinkView) {
+        self.whatsNew = whatsNew
+        self._shouldShow = shouldShow
+        self.linkView = linkView()
+    }
 
     func body(content: Content) -> some View {
         content
             .sheet(isPresented: $shouldShow) {
-                WhatsNewView(whatsNew: whatsNew)
+                WhatsNewView(whatsNew: whatsNew) {
+                    linkView
+                }
             }
     }
 }
 
 public extension View {
-    func whatsNew(whatsNew: WhatsNew) -> some View {
-        modifier(WhatsNewViewModifier(whatsNew: whatsNew))
+    func whatsNew<Content: View>(whatsNew: WhatsNew, @ViewBuilder linkView: () -> Content) -> some View {
+        modifier(WhatsNewViewModifier(whatsNew: whatsNew, linkView: linkView))
     }
 
-    func whatsNew(whatsNew: WhatsNew, shouldShow: Binding<Bool>) -> some View {
-        modifier(WhatsNewViewModifierManual(whatsNew: whatsNew, shouldShow: shouldShow))
+    func whatsNew<Content: View>(whatsNew: WhatsNew, shouldShow: Binding<Bool>, @ViewBuilder linkView: () -> Content) -> some View {
+        modifier(WhatsNewViewModifierManual(whatsNew: whatsNew, shouldShow: shouldShow, linkView: linkView))
     }
 }

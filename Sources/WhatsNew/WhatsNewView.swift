@@ -7,12 +7,18 @@
 
 import SwiftUI
 
-struct WhatsNewView: View {
+struct WhatsNewView<Content>: View where Content: View {
     var whatsNew: WhatsNew
+    var linkView: Content
 
     @Environment(\.dismiss) var dismiss
 
     @State private var buttonOffset: CGFloat = 500
+
+    internal init(whatsNew: WhatsNew, @ViewBuilder linkView: () -> Content) {
+        self.whatsNew = whatsNew
+        self.linkView = linkView()
+    }
 
     var body: some View {
         VStack {
@@ -28,16 +34,20 @@ struct WhatsNewView: View {
                 }
             }
 
-            Button(role: .cancel) {
-                dismiss()
-            } label: {
-                HStack {
-                    Spacer()
-                    Text("Continue")
-                        .font(.system(.title3, design: .rounded))
-                        .fontWeight(.semibold)
-                        .frame(minHeight: 44)
-                    Spacer()
+            VStack(spacing: 16) {
+                linkView
+
+                Button(role: .cancel) {
+                    dismiss()
+                } label: {
+                    HStack {
+                        Spacer()
+                        Text("Continue")
+                            .font(.system(.title3, design: .rounded))
+                            .fontWeight(.semibold)
+                            .frame(minHeight: 44)
+                        Spacer()
+                    }
                 }
             }
             .buttonStyle(.borderedProminent)
@@ -53,7 +63,24 @@ struct WhatsNewView: View {
 }
 
 struct WhatsNewView_Previews: PreviewProvider {
+    static let items: [WhatsNewItem] = [
+        .init(
+            id: "1",
+            title: "Something awesome!",
+            body: "This is something new which is awesome in the app",
+            colorName: "blue",
+            iconName: "scribble.variable"
+        ),
+    ]
+
+    static var whatsNew: WhatsNew = {
+        let whatsNew = WhatsNew(items: items, stateStore: WhatsNewMemoryStateStore())
+        return whatsNew
+    }()
+
     static var previews: some View {
-        WhatsNewView(whatsNew: .init(items: [], stateStore: WhatsNewMemoryStateStore()))
+        WhatsNewView(whatsNew: whatsNew) {
+            Label("Hello", systemImage: "person.circle.fill")
+        }
     }
 }
