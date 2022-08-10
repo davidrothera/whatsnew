@@ -44,7 +44,8 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     }
 
     public func markAsSeen(items: [WhatsNewItem]) {
-        guard let data = try? JSONEncoder().encode(items) else {
+        let identifiers = items.map { $0.id }
+        guard let data = try? JSONEncoder().encode(identifiers) else {
             return
         }
         userDefaults.set(data, forKey: defaultsKey)
