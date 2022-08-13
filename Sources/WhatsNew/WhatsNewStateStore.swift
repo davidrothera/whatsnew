@@ -32,10 +32,9 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     var userDefaults: UserDefaults
     public weak var whatsNew: WhatsNew?
 
-    public init(defaultsKey: String = "whats_new_seen_items", whatsNew: WhatsNew, userDefaults: UserDefaults = .standard) {
+    public init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
-        self.whatsNew = whatsNew
     }
 
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
