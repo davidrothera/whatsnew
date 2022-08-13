@@ -26,6 +26,7 @@ public class WhatsNew {
     public init(items: [WhatsNewItem], stateStore: WhatsNewStateStore) {
         self.stateStore = stateStore
         self.items = filterItems(items)
+        self.stateStore.whatsNew = self
     }
 
     public init(fromPath path: String, withSourceType type: SourceType, stateStore: WhatsNewStateStore) throws {
@@ -57,7 +58,7 @@ public class WhatsNew {
 
     /// Mark the current items as "seen" so that they are not shown on future launches
     func markAsSeen() {
-        stateStore.markAsSeen(items: items)
+        stateStore.markAllAsSeen()
     }
 
     func filterItems(_ items: [WhatsNewItem]) -> [WhatsNewItem] {

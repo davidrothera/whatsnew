@@ -8,17 +8,19 @@
 import Foundation
 
 public protocol WhatsNewStateStore {
+    var whatsNew: WhatsNew? { get set }
     func hasBeenSeen(item: WhatsNewItem) -> Bool
-
-    func markAsSeen(items: [WhatsNewItem])
+    func markAllAsSeen()
 }
 
 public class WhatsNewMemoryStateStore: WhatsNewStateStore {
+    public weak var whatsNew: WhatsNew?
+
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
         false
     }
 
-    public func markAsSeen(items: [WhatsNewItem]) {
+    public func markAllAsSeen() {
         return
     }
 
@@ -28,10 +30,12 @@ public class WhatsNewMemoryStateStore: WhatsNewStateStore {
 public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     var defaultsKey: String
     var userDefaults: UserDefaults
+    public weak var whatsNew: WhatsNew?
 
-    public init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
+    public init(defaultsKey: String = "whats_new_seen_items", whatsNew: WhatsNew, userDefaults: UserDefaults = .standard) {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
+        self.whatsNew = whatsNew
     }
 
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
@@ -43,9 +47,9 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
         return identifiers.contains(item.id)
     }
 
-    public func markAsSeen(items: [WhatsNewItem]) {
-        let identifiers = items.map { $0.id }
-        guard let data = try? JSONEncoder().encode(identifiers) else {
+    public func markAllAsSeen() {
+        guard let identifiers = whatsNew?.items.map({ $0.id }),
+              let data = try? JSONEncoder().encode(identifiers) else {
             return
         }
         userDefaults.set(data, forKey: defaultsKey)
