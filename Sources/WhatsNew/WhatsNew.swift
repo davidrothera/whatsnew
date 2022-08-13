@@ -10,6 +10,7 @@ import Foundation
 public class WhatsNew {
     // MARK: - Variables
     private(set) var items: [WhatsNewItem] = []
+    private(set) var rawItems: [WhatsNewItem] = []
     var stateStore: WhatsNewStateStore
 
     // MARK: - Enums
@@ -25,6 +26,7 @@ public class WhatsNew {
     // MARK: - Public Initializers
     public init(items: [WhatsNewItem], stateStore: WhatsNewStateStore) {
         self.stateStore = stateStore
+        self.rawItems = items
         self.items = filterItems(items)
         self.stateStore.whatsNew = self
     }

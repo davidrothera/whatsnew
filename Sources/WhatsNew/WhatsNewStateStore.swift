@@ -47,7 +47,7 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     }
 
     public func markAllAsSeen() {
-        guard let identifiers = whatsNew?.items.map({ $0.id }),
+        guard let identifiers = whatsNew?.rawItems.map({ $0.id }),
               let data = try? JSONEncoder().encode(identifiers) else {
             return
         }
