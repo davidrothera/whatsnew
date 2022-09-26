@@ -42,7 +42,7 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
 
-        appHasLaunched = userDefaults.bool(forKey: "whats_new_launced")
+        appHasLaunched = userDefaults.bool(forKey: "whats_new_launched")
         if !appHasLaunched {
             userDefaults.set(true, forKey: "whats_new_launched")
         }
