@@ -24,6 +24,7 @@ public class WhatsNew {
         self.stateStore = stateStore
         self.rawItems = items
         self.items = filterItems(items)
+        self.stateStore.whatsNew = self
     }
 
     public init(fromPath path: String, withSourceType type: SourceType, stateStore: WhatsNewStateStore) throws {
