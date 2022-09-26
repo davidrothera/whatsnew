@@ -11,6 +11,7 @@ public protocol WhatsNewStateStore {
     var whatsNew: WhatsNew? { get set }
     func hasBeenSeen(item: WhatsNewItem) -> Bool
     func markAllAsSeen()
+    func hasBeenSeen() -> Bool
 }
 
 public class WhatsNewMemoryStateStore: WhatsNewStateStore {
@@ -22,6 +23,10 @@ public class WhatsNewMemoryStateStore: WhatsNewStateStore {
 
     public func markAllAsSeen() {
         return
+    }
+
+    public func hasBeenSeen() -> Bool {
+        false
     }
 
     public init() {}
@@ -52,5 +57,12 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
             return
         }
         userDefaults.set(data, forKey: defaultsKey)
+    }
+
+    public func hasBeenSeen() -> Bool {
+        if userDefaults.object(forKey: defaultsKey) == nil {
+            return false
+        }
+        return true
     }
 }

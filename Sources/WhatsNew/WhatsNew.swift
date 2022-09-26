@@ -52,6 +52,9 @@ public class WhatsNew {
     // MARK: - Private methods
     /// Whether we should show the WhatsNew or not
     func shouldShow() -> Bool {
+        if !stateStore.hasBeenSeen() {
+            return false
+        }
         if items.isEmpty {
             return false
         }
