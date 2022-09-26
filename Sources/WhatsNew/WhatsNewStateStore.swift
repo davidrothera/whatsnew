@@ -11,7 +11,7 @@ public protocol WhatsNewStateStore {
     var whatsNew: WhatsNew? { get set }
     func hasBeenSeen(item: WhatsNewItem) -> Bool
     func markAllAsSeen()
-    func hasBeenSeen() -> Bool
+    func firstAppLaunch() -> Bool
 }
 
 public class WhatsNewMemoryStateStore: WhatsNewStateStore {
@@ -25,7 +25,7 @@ public class WhatsNewMemoryStateStore: WhatsNewStateStore {
         return
     }
 
-    public func hasBeenSeen() -> Bool {
+    public func firstAppLaunch() -> Bool {
         false
     }
 
@@ -35,11 +35,17 @@ public class WhatsNewMemoryStateStore: WhatsNewStateStore {
 public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     var defaultsKey: String
     var userDefaults: UserDefaults
+    private var appHasLaunched: Bool
     public weak var whatsNew: WhatsNew?
 
     public init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
+
+        appHasLaunched = userDefaults.bool(forKey: "whats_new_launced")
+        if !appHasLaunched {
+            userDefaults.set(true, forKey: "whats_new_launched")
+        }
     }
 
     public func hasBeenSeen(item: WhatsNewItem) -> Bool {
@@ -59,10 +65,7 @@ public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
         userDefaults.set(data, forKey: defaultsKey)
     }
 
-    public func hasBeenSeen() -> Bool {
-        if userDefaults.object(forKey: defaultsKey) == nil {
-            return false
-        }
-        return true
+    public func firstAppLaunch() -> Bool {
+        !appHasLaunched
     }
 }

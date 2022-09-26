@@ -19,16 +19,11 @@ public class WhatsNew {
         case plist
     }
 
-    enum DefaultsKeys: String {
-        case seenVersion = "whatsnew_seen_version"
-    }
-
     // MARK: - Public Initializers
     public init(items: [WhatsNewItem], stateStore: WhatsNewStateStore) {
         self.stateStore = stateStore
         self.rawItems = items
         self.items = filterItems(items)
-        self.stateStore.whatsNew = self
     }
 
     public init(fromPath path: String, withSourceType type: SourceType, stateStore: WhatsNewStateStore) throws {
@@ -52,7 +47,7 @@ public class WhatsNew {
     // MARK: - Private methods
     /// Whether we should show the WhatsNew or not
     func shouldShow() -> Bool {
-        if !stateStore.hasBeenSeen() {
+        if !stateStore.firstAppLaunch() {
             return false
         }
         if items.isEmpty {
