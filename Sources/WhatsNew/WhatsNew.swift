@@ -48,6 +48,7 @@ public class WhatsNew {
     /// Whether we should show the WhatsNew or not
     func shouldShow() -> Bool {
         if stateStore.firstAppLaunch() {
+            stateStore.markAllAsSeen()
             return false
         }
         if items.isEmpty {
