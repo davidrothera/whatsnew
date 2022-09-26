@@ -47,7 +47,7 @@ public class WhatsNew {
     // MARK: - Private methods
     /// Whether we should show the WhatsNew or not
     func shouldShow() -> Bool {
-        if !stateStore.firstAppLaunch() {
+        if stateStore.firstAppLaunch() {
             return false
         }
         if items.isEmpty {
