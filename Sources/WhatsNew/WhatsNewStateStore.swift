@@ -14,6 +14,14 @@ public protocol WhatsNewStateStore {
     func firstAppLaunch() -> Bool
 }
 
+public protocol WhatsNewUserDefaultsProtocol {
+    func bool(forKey defaultName: String) -> Bool
+    func data(forKey defaultName: String) -> Data?
+    func set(_ value: Any?, forKey defaultName: String)
+}
+
+extension UserDefaults: WhatsNewUserDefaultsProtocol {}
+
 public class WhatsNewMemoryStateStore: WhatsNewStateStore {
     public weak var whatsNew: WhatsNew?
 
@@ -34,11 +42,11 @@ public class WhatsNewMemoryStateStore: WhatsNewStateStore {
 
 public class WhatsNewUserDefaultsStateStore: WhatsNewStateStore {
     var defaultsKey: String
-    var userDefaults: UserDefaults
+    var userDefaults: WhatsNewUserDefaultsProtocol
     private var appHasLaunched: Bool
     public weak var whatsNew: WhatsNew?
 
-    public init(defaultsKey: String = "whats_new_seen_items", userDefaults: UserDefaults = .standard) {
+    public init(defaultsKey: String = "whats_new_seen_items", userDefaults: WhatsNewUserDefaultsProtocol = UserDefaults.standard) {
         self.defaultsKey = defaultsKey
         self.userDefaults = userDefaults
 

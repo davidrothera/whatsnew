@@ -43,6 +43,15 @@ class ModelTests: XCTestCase {
 
     func testFilterItems() throws {
         class TestStateStore: WhatsNewStateStore {
+            var whatsNew: WhatsNew?
+
+            func markAllAsSeen() {
+            }
+
+            func firstAppLaunch() -> Bool {
+                false
+            }
+
             func hasBeenSeen(item: WhatsNewItem) -> Bool {
                 return item.id == "1"
             }
