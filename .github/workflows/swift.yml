@@ -10,13 +10,12 @@ on:
     branches: [ "main" ]
 
 jobs:
-  build:
-
+  test:
     runs-on: macos-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build
-      run: swift build -v
+    - name: Cancel Previous Runs
+      uses: styfle/cancel-workflow-action@0.11.0
+    - name: Checkout
+      uses: actions/checkout@v3
     - name: Run tests
-      run: swift test -v
+      run: xcodebuild test -scheme WhatsNew -destination 'platform=iOS Simulator,name=iPhone 13 Pro,OS=16.0' | xcpretty
