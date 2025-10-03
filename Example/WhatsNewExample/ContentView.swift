@@ -43,7 +43,10 @@ struct ContentView: View {
             }
         }
         .padding()
-        .whatsNew(whatsNew: whatsNew) {
+        .whatsNew(
+            whatsNew: whatsNew,
+            animate: false
+        ) {
             Button {
                 showTip.toggle()
             } label: {
@@ -54,7 +57,11 @@ struct ContentView: View {
                 Text("HI")
             }
         }
-        .whatsNew(whatsNew: whatsNewAdhoc, shouldShow: $showWhatsNew) {
+        .whatsNew(
+            whatsNew: whatsNewAdhoc,
+            shouldShow: $showWhatsNew,
+            animate: false
+        ) {
             Button {
                 showTip.toggle()
             } label: {

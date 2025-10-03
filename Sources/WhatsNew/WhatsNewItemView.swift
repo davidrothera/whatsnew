@@ -11,7 +11,13 @@ struct WhatsNewItemView: View {
     var item: WhatsNewItem
     var index: Int
 
-    @State private var offset: CGFloat = 1000
+    @State private var offset: CGFloat
+
+    init(item: WhatsNewItem, index: Int, animate: Bool) {
+        self.item = item
+        self.index = index
+        self.offset = animate ? 1000 : 0
+    }
 
     var body: some View {
         HStack {
@@ -41,6 +47,10 @@ struct WhatsNewItemView: View {
 
 struct SwiftUIView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewItemView(item: .init(id: "sample", title: "Example", body: "An example item", colorName: "mint", iconName: "circle.fill"), index: 0)
+        WhatsNewItemView(
+            item: .init(id: "sample", title: "Example", body: "An example item", colorName: "mint", iconName: "circle.fill"),
+            index: 0,
+            animate: false
+        )
     }
 }
