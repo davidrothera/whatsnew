@@ -23,7 +23,7 @@ struct WhatsNewView<Content>: View where Content: View {
         self.animate = animate
     }
 
-    @available(iOS 26.0, *)
+    @available(iOS 26.0, macOS 26.0, *)
     var glassBody: some View {
         ScrollView {
             ForEach(Array(zip(whatsNew.items.indices, whatsNew.items)), id: \.1) { index, item in
@@ -108,7 +108,7 @@ struct WhatsNewView<Content>: View where Content: View {
     }
 
     var body: some View {
-        if #available(iOS 26.0, *) {
+        if #available(iOS 26.0, macOS 26.0, *) {
             glassBody
         } else {
             classicBody
